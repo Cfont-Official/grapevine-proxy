@@ -1,0 +1,52 @@
+ <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Grapevine Search</title>
+    <style>
+      body {
+        background-color: purple;
+        color: white;
+        font-family: 'Inter', sans-serif;
+        padding: 20px;
+      }
+      input {
+        padding: 10px;
+        width: 80%;
+        border-radius: 8px;
+        border: none;
+      }
+      button {
+        background-color: #238636;
+        color: white;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Grapevine Search</h1>
+    <input id="query" placeholder="Search for images..." />
+    <button onclick="search()">Search</button>
+    <div id="results"></div>
+
+    <script>
+      async function search() {
+        const q = document.getElementById("query").value;
+        const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
+        const data = await res.json();
+        const container = document.getElementById("results");
+        container.innerHTML = "";
+        data.value.forEach(img => {
+          const i = document.createElement("img");
+          i.src = img.thumbnailUrl;
+          i.style.width = "200px";
+          i.style.margin = "10px";
+          container.appendChild(i);
+        });
+      }
+    </script>
+  </body>
+</html>
